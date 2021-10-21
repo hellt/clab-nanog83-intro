@@ -1,3 +1,4 @@
+# this topology files uses startup-config directive to make lab nodes to boot with a pre-provisioned configuration
 name: rr
 
 topology:
@@ -5,12 +6,16 @@ topology:
     srlinux:
       kind: srl
       image: ghcr.io/nokia/srlinux
+      startup-config: srl.cfg.json
     ceos:
       kind: ceos
       image: ceos:4.25.0F
+      startup-config: ceos.cfg
     gobgp:
       kind: linux
       image: ghcr.io/hellt/network-multitool
+      binds:
+        - gobgp.sh:/gobgp.sh
 
   links:
     - endpoints: ["srlinux:e1-1", "ceos:eth1"]
